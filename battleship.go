@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"os"
 	"os/exec"
+	"runtime"
 	"strconv"
 	"strings"
 	"time"
@@ -340,9 +341,16 @@ func Playerattack(gameboard [10][10]string, hidden [10][10]string) [10][10]strin
 // Windows cl := exec.Command("cmd", "/c", "cls")
 // unix base cl := exec.Command("clear")
 func clearscreen() {
-	cl := exec.Command("cmd", "/c", "cls")
-	cl.Stdout = os.Stdout
-	cl.Run()
+	var clearScreenCmd *exec.Cmd
+
+	if runtime.GOOS == "windows" {
+		clearScreenCmd = exec.Command("cmd", "/c", "cls")
+	} else if runtime.GOOS == "linux" || runtime.GOOS == "darwin" {
+		clearScreenCmd = exec.Command("clear")
+	}
+
+	clearScreenCmd.Stdout = os.Stdout
+	clearScreenCmd.Run()
 }
 
 func main() {
