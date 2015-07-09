@@ -7,6 +7,7 @@ import  (
   "os/exec"
   "strings"
   "strconv"
+  "time"
 )
 
 //Makes a new board with no ships
@@ -109,13 +110,16 @@ func Placeships() [6][6]string {
   var colum int
   var dir int
 
+  //From stackoverflow to fix same patern with rand.Intn()
+  rand.Seed( time.Now().UTC().UnixNano())
+
   row = rand.Intn(5) + 1
   colum = rand.Intn(5) + 1
   dir = rand.Intn(20)
 
   switch {
   case dir <= 4: // down
-    if row <= 4 {
+    if row <= 3 {
       //fmt.Println("..down..")
       for i := 0; i < 3; i++ {
         a[row + i][colum] = "X"
@@ -187,7 +191,7 @@ func Playerattack(gameboard [6][6]string, hidden [6][6]string) [6][6]string {
   a := gameboard
   var b string
   var c []string
-
+  //Drawboard(hidden)
   fmt.Println("Enter a space to attack. Range A1 - E5")
   //Checks if valid spot on board
   //If valid continues, Else prompts for new attack
@@ -255,9 +259,9 @@ func main() {
   //testing Placeships()
   /*
   Drawboard(key)
-  for i := 0; i < 30; i++ {
+  for i := 0; i < 10; i++ {
     key = Placeships()
-    //Drawboard(key)
+    Drawboard(key)
   }
   */
 
