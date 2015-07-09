@@ -345,6 +345,9 @@ func clearscreen() {
 		clearScreenCmd = exec.Command("cmd", "/c", "cls")
 	} else if runtime.GOOS == "linux" || runtime.GOOS == "darwin" {
 		clearScreenCmd = exec.Command("clear")
+	} else {
+		fmt.Fprintf(os.Stderr, "Your OS \"%s\" is not supported.", runtime.GOOS)
+		os.Exit(2)
 	}
 
 	clearScreenCmd.Stdout = os.Stdout
